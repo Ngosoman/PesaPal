@@ -40,11 +40,13 @@ export default function PaymentForm() {
         body:    JSON.stringify(formData),
       })
 
+      const text = await response.text()
       let data
       try {
-        data = await response.json()
+        data = JSON.parse(text)
       } catch {
-        setError(`Server error ${response.status}: ${response.statusText}. Check Render logs.`)
+        // Response was not JSON — show first 120 chars to help diagnose
+        setError(`Server error (${response.status}): ${text.slice(0, 120)}`)
         setIsLoading(false)
         return
       }
