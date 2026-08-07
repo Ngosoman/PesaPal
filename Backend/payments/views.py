@@ -11,6 +11,10 @@ from .pesapal import get_auth_token, get_or_register_ipn, submit_order, get_tran
 logger = logging.getLogger(__name__)
 
 
+def health(request):
+    return JsonResponse({'status': 'ok'})
+
+
 @csrf_exempt
 @require_http_methods(['POST'])
 def initiate_payment(request):

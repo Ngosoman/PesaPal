@@ -40,7 +40,14 @@ export default function PaymentForm() {
         body:    JSON.stringify(formData),
       })
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch {
+        setError(`Server error ${response.status}: ${response.statusText}. Check Render logs.`)
+        setIsLoading(false)
+        return
+      }
 
       if (!response.ok) {
         setError(data.error || 'Payment initiation failed. Please try again.')
