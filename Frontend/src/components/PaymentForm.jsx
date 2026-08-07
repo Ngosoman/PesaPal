@@ -55,8 +55,12 @@ export default function PaymentForm() {
         window.location.href = data.redirect_url
       }, 2000)
 
-    } catch {
-      setError('Network error. Please check your connection and try again.')
+    } catch (err) {
+      // SyntaxError means the response wasn't JSON — likely the API URL is wrong or unset
+      const msg = err instanceof SyntaxError
+        ? 'Configuration error: could not reach the payment server.'
+        : 'Network error. Please check your connection and try again.'
+      setError(msg)
       setIsLoading(false)
     }
   }
