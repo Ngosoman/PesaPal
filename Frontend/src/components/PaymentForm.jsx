@@ -34,7 +34,7 @@ export default function PaymentForm() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/pesapal/initiate/', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/pesapal/initiate/`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(formData),
