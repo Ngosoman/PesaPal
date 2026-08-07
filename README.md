@@ -7,6 +7,7 @@ A minimal but complete example of integrating **PesaPal v3** into a full-stack w
 
 Live demo: [pesa-pal.vercel.app](https://pesa-pal.vercel.app)
 
+
 ---
 
 ## How it works (in a nutshell)
