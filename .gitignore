@@ -1,0 +1,19 @@
+# Python
+Backend/.venv/
+Backend/__pycache__/
+Backend/**/__pycache__/
+Backend/db.sqlite3
+**/*.pyc
+**/*.pyo
+
+# Node
+Frontend/node_modules/
+Frontend/dist/
+
+# Env files (already in Backend/.gitignore, belt-and-suspenders)
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db

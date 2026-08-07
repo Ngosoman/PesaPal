@@ -19,11 +19,12 @@ def initiate_payment(request):
     except (json.JSONDecodeError, ValueError):
         return JsonResponse({'error': 'Invalid JSON body'}, status=400)
 
-    first_name = data.get('first_name', '').strip()
-    last_name  = data.get('last_name', '').strip()
-    email      = data.get('email', '').strip()
-    phone      = data.get('phone', '').strip()
-    amount     = data.get('amount')
+    first_name      = data.get('first_name', '').strip()
+    last_name       = data.get('last_name', '').strip()
+    email           = data.get('email', '').strip()
+    phone           = data.get('phone', '').strip()
+    amount          = data.get('amount')
+    payment_method  = data.get('payment_method', '').strip()
 
     if not all([first_name, last_name, email, phone, amount]):
         return JsonResponse({'error': 'All fields are required'}, status=400)
@@ -38,7 +39,7 @@ def initiate_payment(request):
     try:
         token  = get_auth_token()
         ipn_id = get_or_register_ipn(token)
-        result = submit_order(token, ipn_id, first_name, last_name, email, phone, amount)
+        result = submit_order(token, ipn_id, first_name, last_name, email, phone, amount, payment_method=payment_method)
         return JsonResponse({
             'redirect_url':       result['redirect_url'],
             'order_tracking_id':  result['order_tracking_id'],

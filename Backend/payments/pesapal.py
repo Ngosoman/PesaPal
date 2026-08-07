@@ -67,15 +67,18 @@ def _persist_ipn_id(ipn_id):
     env_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
 
-def submit_order(token, ipn_id, first_name, last_name, email, phone, amount, currency='KES'):
+def submit_order(token, ipn_id, first_name, last_name, email, phone, amount, currency='KES', payment_method=''):
     order_id = str(uuid.uuid4())
+    description = f'Payment \u2014 {first_name} {last_name}'
+    if payment_method:
+        description += f' via {payment_method}'
     response = requests.post(
         os.environ['PESAPAL_SUBMIT_ORDER_URL'],
         json={
             'id': order_id,
             'currency': currency,
             'amount': float(amount),
-            'description': f'Payment — {first_name} {last_name}',
+            'description': description,
             'callback_url': os.environ['PESAPAL_CALLBACK_URL'],
             'notification_id': ipn_id,
             'billing_address': {

@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import OrderButton from './OrderButton'
 
+const PAYMENT_METHODS = [
+  { value: 'MPESA',        label: 'M-Pesa',       icon: '📱', color: '#00a651' },
+  { value: 'AIRTEL',       label: 'Airtel Money',  icon: '📱', color: '#e4002b' },
+  { value: 'MASTERCARD',   label: 'Mastercard',    icon: '💳', color: '#eb001b' },
+  { value: 'VISA',         label: 'Visa Card',     icon: '💳', color: '#1a1f71' },
+]
+
 export default function PaymentForm() {
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name:  '',
-    email:      '',
-    phone:      '',
-    amount:     '',
+    first_name:     '',
+    last_name:      '',
+    email:          '',
+    phone:          '',
+    amount:         '',
+    payment_method: '',
   })
   const [error,       setError]       = useState('')
   const [isLoading,   setIsLoading]   = useState(false)
@@ -136,6 +144,39 @@ export default function PaymentForm() {
               required
               disabled={disabled}
             />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="payment_method">Payment Method</label>
+          <div className="method-select-wrapper">
+            <select
+              id="payment_method"
+              name="payment_method"
+              value={formData.payment_method}
+              onChange={handleChange}
+              required
+              disabled={disabled}
+              className={`method-select${formData.payment_method ? ' has-value' : ''}`}
+              style={formData.payment_method
+                ? { borderColor: PAYMENT_METHODS.find(m => m.value === formData.payment_method)?.color }
+                : {}}
+            >
+              <option value="" disabled>Select a payment method</option>
+              {PAYMENT_METHODS.map(m => (
+                <option key={m.value} value={m.value}>
+                  {m.icon}  {m.label}
+                </option>
+              ))}
+            </select>
+            {formData.payment_method && (
+              <span
+                className="method-badge"
+                style={{ background: PAYMENT_METHODS.find(m => m.value === formData.payment_method)?.color }}
+              >
+                {PAYMENT_METHODS.find(m => m.value === formData.payment_method)?.label}
+              </span>
+            )}
           </div>
         </div>
 
